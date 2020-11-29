@@ -4,4 +4,22 @@ services:
     build:
       context: ./integration
     ports:
-      - 8233:8233
+      - 127.0.0.1:8233:8233
+  # User Subsystem
+  user_db:
+    image: postgres:alpine
+    volumes:
+      - ./.persistence/user_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+  user_redis:
+    image: redis:alpine
+  user:
+    build:
+      context: ./user
+    ports: 
+      - 127.0.0.1:9000:9000
+    depends_on:
+      - user_db
+      - user_redis
+    #command: rake db:migrate

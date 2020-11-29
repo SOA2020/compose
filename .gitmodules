@@ -2,3 +2,7 @@
 	path = integration
 	url = git@github.com:soa2020/integration.git
 	branch = main
+[submodule "user"]
+	path = user
+	url = git@github.com:soa2020/user.git
+	branch = main
