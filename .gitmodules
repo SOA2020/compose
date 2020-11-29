@@ -1,0 +1,4 @@
+[submodule "integration"]
+	path = integration
+	url = git@github.com:soa2020/integration.git
+	branch = main
