@@ -6,3 +6,7 @@
 	path = user
 	url = git@github.com:soa2020/user.git
 	branch = main
+[submodule "gateway"]
+	path = gateway
+	url = git@github.com:soa2020/gateway.git
+	branch = main

@@ -3,8 +3,7 @@ services:
   integration:
     build:
       context: ./integration
-    ports:
-      - 127.0.0.1:8233:8233
+
   # User Subsystem
   user_db:
     image: postgres:alpine
@@ -17,9 +16,18 @@ services:
   user:
     build:
       context: ./user
-    ports: 
-      - 127.0.0.1:9000:9000
     depends_on:
       - user_db
       - user_redis
     #command: rake db:migrate
+  
+  # API Services Gateway
+  gateway:
+    image: nginx:stable
+    volumes: 
+      - ./gateway/nginx:/etc/nginx
+    ports:
+      - 8080:80
+    depends_on:
+      - integration
+      - user
