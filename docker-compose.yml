@@ -32,7 +32,7 @@ services:
     build:
       context: ./payment
     depends_on:
-    - payment_db
+      - payment_db
     #command: "rake db:migrate"
 
   # Comment Subsystem
@@ -46,9 +46,29 @@ services:
     build:
       context: ./comment
     depends_on:
-    - comment_db
+      - comment_db
     #command: "rake db:migrate"
 
+  # Inventory Subsystem
+  inventory_db:
+    image: postgres:alpine
+    volumes:
+      - ./.persistence/inventory_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USERNAME: postgres
+      POSTGRES_DB: db_inventory
+  inventory:
+    build:
+      context: ./inventory
+    depends_on:
+      - inventory_db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://inventory_db:5432/db_inventory
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL-AUTO: update
+      SERVER_PORT: 9003
   # API Services Gateway
   gateway:
     image: nginx:stable
