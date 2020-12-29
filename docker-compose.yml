@@ -19,8 +19,36 @@ services:
     depends_on:
       - user_db
       - user_redis
-    #command: rake db:migrate
-  
+    #command: "rake db:migrate"
+
+  # Payment Subsystem
+  payment_db:
+    image: postgres:alpine
+    volumes:
+      - ./.persistence/payment_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+  payment:
+    build:
+      context: ./payment
+    depends_on:
+    - payment_db
+    #command: "rake db:migrate"
+
+  # Comment Subsystem
+  comment_db:
+    image: postgres:alpine
+    volumes:
+      - ./.persistence/comment_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+  comment:
+    build:
+      context: ./comment
+    depends_on:
+    - comment_db
+    #command: "rake db:migrate"
+
   # API Services Gateway
   gateway:
     image: nginx:stable

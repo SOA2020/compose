@@ -14,3 +14,11 @@
 	path = inventory
 	url = git@github.com:soa2020/inventory.git
 	branch = main
+[submodule "payment"]
+	path = payment
+	url = git@github.com:soa2020/payment.git
+	branch = main
+[submodule "comment"]
+	path = comment
+	url = git@github.com:soa2020/comment.git
+	branch = main
