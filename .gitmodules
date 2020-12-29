@@ -22,3 +22,7 @@
 	path = comment
 	url = git@github.com:soa2020/comment.git
 	branch = main
+[submodule "order"]
+	path = order
+	url = git@github.com:soa2020/order.git
+	branch = main
