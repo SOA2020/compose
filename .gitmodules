@@ -10,3 +10,7 @@
 	path = gateway
 	url = git@github.com:soa2020/gateway.git
 	branch = main
+[submodule "inventory"]
+	path = inventory
+	url = git@github.com:soa2020/inventory.git
+	branch = main
