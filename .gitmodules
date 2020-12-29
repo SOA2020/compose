@@ -26,3 +26,7 @@
 	path = order
 	url = git@github.com:soa2020/order.git
 	branch = main
+[submodule "cart"]
+	path = cart
+	url = git@github.com:soa2020/cart.git
+	branch = main

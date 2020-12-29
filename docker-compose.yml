@@ -90,6 +90,26 @@ services:
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_JPA_HIBERNATE_DDL-AUTO: update
       SERVER_PORT: 9004
+  # cart Subsystem
+  cart_db:
+    image: postgres:alpine
+    volumes:
+      - ./.persistence/cart_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USERNAME: postgres
+      POSTGRES_DB: db_cart
+  cart:
+    build:
+      context: ./cart
+    depends_on:
+      - cart_db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://cart_db:5432/db_cart
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL-AUTO: update
+      SERVER_PORT: 9005
   # API Services Gateway
   gateway:
     image: nginx:stable
