@@ -1,8 +1,35 @@
 version: '3'
 services:
+  # API Services Gateway
+  gateway:
+    image: nginx:stable
+    volumes: 
+      - ./gateway/nginx:/etc/nginx
+    ports:
+      - 8080:80
+    depends_on:
+      - integration
+
+  # Mesh up
   integration:
     build:
       context: ./integration
+    depends_on:
+      - user
+      - payment
+      - comment
+      - inventory
+      - cart
+      - order
+    environment: 
+      - USER_SERVICE=http://user:9000
+      - COMMENT_SERVICE=http://comment:9001
+      - PAYMENT_SERVICE=http://payment:9002
+      - INVENTORY_SERVICE=http://inventory:9003
+      - ORDER_SERVICE=http://order:9004
+      - CART_SERVICE=http://cart:9005
+    #ports:
+    #  - 8233:8233
 
   # User Subsystem
   user_db:
@@ -11,6 +38,8 @@ services:
       - ./.persistence/user_db:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgres
+    ports: 
+      - 15432:5432
   user_redis:
     image: redis:alpine
   user:
@@ -110,13 +139,3 @@ services:
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_JPA_HIBERNATE_DDL-AUTO: update
       SERVER_PORT: 9005
-  # API Services Gateway
-  gateway:
-    image: nginx:stable
-    volumes: 
-      - ./gateway/nginx:/etc/nginx
-    ports:
-      - 8080:80
-    depends_on:
-      - integration
-      - user
